@@ -4,6 +4,7 @@ import random
 import winsound
 import time
 import os
+import ast
 racecourse = turtle.Screen()
 start = turtle.Turtle()
 winner = turtle.Turtle()
@@ -13,7 +14,11 @@ kincsem_bet = 0
 BlackCaviar_bet = 0
 PeppersPride_bet = 0
 Eclipse_bet = 0
-coins = 20
+with open('money_data.txt', 'r') as f:
+    current_coins = ast.literal_eval(f.read())
+coins = current_coins
+if coins == 0:
+    coins = 10
 gambler = ''
 class horses(Turtle):
     def __init__(self, name, move, position):
@@ -90,12 +95,20 @@ def get_ready():
     global gambler
     if gambler == 'kincsem':
         coins -= kincsem_bet
+        with open('money_data.txt', 'w') as f:
+            f.write(str(coins))
     if gambler == "BlackCaviar":
         coins -= BlackCaviar_bet
+        with open('money_data.txt', 'w') as f:
+            f.write(str(coins))
     if gambler == "PeppersPride":
         coins -= PeppersPride_bet
+        with open('money_data.txt', 'w') as f:
+            f.write(str(coins))
     if gambler == "Eclipse":
         coins -= Eclipse_bet
+        with open('money_data.txt', 'w') as f:
+            f.write(str(coins))
 
 def kincsem_add_bet():
     global kincsem_bet
@@ -190,6 +203,8 @@ def game():
                 winner.write("Kincsem is the winner!", align="center",font=("Comic Sans MS", 24, "normal"))
                 time.sleep(3)
                 coins += kincsem_bet*2
+                with open('money_data.txt', 'w') as f:
+                    f.write(str(coins))
                 restart()
                 bets()
         else:
@@ -199,6 +214,8 @@ def game():
             if BlackCaviar.xcor() >= 450:
                 winner.write("Black Caviar is the winner!", align="center",font=("Comic Sans MS", 24, "normal"))
                 coins += BlackCaviar_bet * 2
+                with open('money_data.txt', 'w') as f:
+                    f.write(str(coins))
                 time.sleep(3)
                 restart()
                 bets()
@@ -209,6 +226,8 @@ def game():
             if PeppersPride.xcor() >= 450:
                 winner.write("Peppers Pride is the winner!", align="center",font=("Comic Sans MS", 24, "normal"))
                 coins += PeppersPride_bet * 2
+                with open('money_data.txt', 'w') as f:
+                    f.write(str(coins))
                 time.sleep(3)
                 restart()
                 bets()
@@ -219,6 +238,8 @@ def game():
             if Eclipse.xcor() >= 450:
                 winner.write("Eclipse is the winner!", align="center",font=("Comic Sans MS", 24, "normal"))
                 coins += Eclipse_bet * 2
+                with open('money_data.txt', 'w') as f:
+                    f.write(str(coins))
                 time.sleep(3)
                 restart()
                 bets()
